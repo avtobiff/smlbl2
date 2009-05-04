@@ -13,6 +13,9 @@ class SMLBL2(object):
     def input(self,event):
         if event.type == pygame.QUIT:
             self.running = 0
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_ESC:
+                self.running = 0
 
     def init(self):
         pygame.init()
