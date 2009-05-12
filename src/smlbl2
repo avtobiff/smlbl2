@@ -1,0 +1,36 @@
+#!/usr/bin/env python
+
+import random
+import pygame
+
+import Brain,Eye,Hand
+from Exceptions import ExitSMLBL2
+
+
+class SMLBL2(object):
+    """
+    Bootstrap class.
+    """
+    def __init__(self):
+        pygame.init()
+
+        self.eye = Eye.Eye()             # view
+        self.brain = Brain.Brain(self.eye)    # model
+        self.hand = Hand.Hand(self.brain,self.eye) # controller
+
+
+    def run(self):
+        try:
+            while 1:
+                self.hand.handle_input(pygame.event.poll())
+                self.eye.repaint()
+        except ExitSMLBL2:
+            pass
+
+        print "Exiting..."
+
+
+
+if __name__ == "__main__":
+    smlbl2 = SMLBL2()
+    smlbl2.run()
