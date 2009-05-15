@@ -24,6 +24,10 @@ splitgoofy.append(goofy.subsurface(16,0,16,32))
 splitgoofy.append(goofy.subsurface(32,0,16,32))
 splitgoofy.append(goofy.subsurface(48,0,16,32))
 
+bigsplitgoofy = []
+for sg in splitgoofy:
+	bigsplitgoofy.append(pygame.transform.scale(sg, (sg.get_width()*3, sg.get_height()*3)))
+
 movie = [0,2,1,2,0,2,1,2,0,2,1,2,0,2,1,2,3,3,3,3,3,3,3,3]
 
 frame = 0
@@ -44,6 +48,7 @@ while True:
 		y = 200
 	screen.fill((0, 90, 0))
 	screen.blit(splitgoofy[movie[frame]], (x, y))
+	screen.blit(bigsplitgoofy[movie[frame]], ((x-200)*3, (y-200)*3+300))
 	pygame.display.flip()
 	clock.tick(fps)
 
