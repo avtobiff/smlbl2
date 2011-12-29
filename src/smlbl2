@@ -14,9 +14,9 @@ class SMLBL2(object):
     def __init__(self):
         pygame.init()
 
-        self.eye = Eye.Eye()             # view
-        self.brain = Brain.Brain(self.eye)    # model
-        self.hand = Hand.Hand(self.brain,self.eye) # controller
+        self.brain  = Brain.Brain()                   # model
+        self.eye    = Eye.Eye(self.brain)             # view
+        self.hand   = Hand.Hand(self.brain, self.eye) # controller
 
 
     def run(self):
