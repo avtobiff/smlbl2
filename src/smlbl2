@@ -20,12 +20,14 @@ class SMLBL2(object):
 
 
     def run(self):
-        try:
-            while 1:
+        running = True
+        while running:
+            try:
+                # handle input
                 self.hand.handle_input(pygame.event.poll())
                 self.eye.repaint()
-        except ExitSMLBL2:
-            pass
+            except ExitSMLBL2:
+                running = False
 
         print "Exiting..."
 
