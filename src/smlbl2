@@ -25,6 +25,11 @@ class SMLBL2(object):
             try:
                 # handle input
                 self.hand.handle_input(pygame.event.poll())
+
+                # handle game state
+                self.brain.tick()
+
+                # repaint
                 self.eye.repaint()
             except ExitSMLBL2:
                 running = False
