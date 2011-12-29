@@ -1,5 +1,11 @@
+# -*- coding: utf-8 -*-
+import random
+import pygame
+
 from models import SplashImage, LevelSplashImage, Level
 from models.CharacterSelect import Background, Character, Cursor
+
+from Exceptions import ExitSMLBL2
 
 
 class Brain(object):
@@ -57,3 +63,38 @@ class Brain(object):
 
     def gameplay(self):
         self.current_scene = [Level()]
+
+
+
+class Eye(object):
+    """
+    Viewer class.
+    """
+    def __init__(self, brain):
+        self.brain = brain
+        self.screen = pygame.display.set_mode((640,480))
+        pygame.display.set_caption("Super Mario Långben Bruce Lee 2")
+        pygame.mouse.set_visible(0)
+
+
+    def repaint(self):
+        self.screen.fill((random.random()*255,random.random()*255,random.random()*255))
+        pygame.display.flip()
+
+
+
+class Hand(object):
+    """
+    This is the controller class.
+    """
+    def __init__(self,brain,eye):
+        self.brain = brain
+        self.eye = eye
+
+
+    def handle_input(self,event):
+        if event.type == pygame.QUIT:
+            raise ExitSMLBL2
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_ESCAPE:
+                raise ExitSMLBL2
