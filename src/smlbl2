@@ -40,11 +40,15 @@ class SMLBL2(object):
                 # handle input
                 self.hand.handle_input(pygame.event.poll())
 
+                # should we repaint the view port?
+                repaint = self.brain.do_repaint
+
                 # handle game state
                 self.brain.tick()
 
                 # repaint
-                self.eye.repaint()
+                if repaint:
+                    self.eye.repaint()
             except ExitSMLBL2:
                 running = False
 

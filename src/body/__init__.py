@@ -28,6 +28,7 @@ class Brain(object):
 
         self.state = self.SPLASH
         self.do_sleep = False
+        self.do_repaint = True
         self.selected_character = None
         self.character_select_scene = [Background(),
                                        Character((50,  200), "data/character_0.png", 0),
@@ -37,19 +38,25 @@ class Brain(object):
                                        Cursor((50, 100), "data/cursor.png",
                                               [50, 200, 350, 500])]
 
+        # set current secne to initial value
+        self.scene[self.state]()
+
 
     # movement controls
     def pressed_right(self):
         if self.state == self.CHARACTER_SELECT:
             self.move_cursor_right()
+            self.do_repaint = True
 
     def pressed_left(self):
         if self.state == self.CHARACTER_SELECT:
             self.move_cursor_left()
+            self.do_repaint = True
 
     def pressed_enter(self):
         if self.state == self.CHARACTER_SELECT:
             self.select_character()
+            self.do_repaint = True
 
 
     def tick(self):
@@ -57,8 +64,6 @@ class Brain(object):
         Tick function for game play. This updates model with respect to
         control from user.
         """
-        self.scene[self.state]()
-
         # just sleep for five seconds during splash
         if self.state == self.SPLASH and self.do_sleep:
             print "Splash..."
@@ -68,13 +73,15 @@ class Brain(object):
             print "Select character..."
         # wait in chracter select until a character is selected
         elif self.state == self.CHARACTER_SELECT:
+            # repaint indication is handled by move functions
             if self.selected_character == None:
+                self.do_repaint = False
                 return
             print "Selected character %s..." % self.selected_character
             self.state = self.LEVEL_SPLASH
             # hack for allowing to blit level splash
             self.do_sleep = False
-            return
+            self.do_repaint = True
         # just sleep for five seconds during level splash
         elif self.state == self.LEVEL_SPLASH and self.do_sleep:
             print "Level splash..."
@@ -87,6 +94,9 @@ class Brain(object):
             print "Gameplay..."
 
         self.do_sleep = True
+        # update current scene according to new state
+        self.scene[self.state]()
+
 
 
     ## game states
@@ -133,6 +143,8 @@ class Eye(object):
 
 
     def repaint(self):
+        print "Repainting..."
+
         # create a surface for every game object in brain's scene
         graphical_scene = []
         for game_object in self.brain.current_scene:
