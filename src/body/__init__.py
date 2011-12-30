@@ -105,7 +105,23 @@ class Eye(object):
 
 
     def repaint(self):
-        self.screen.fill((random.random()*255,random.random()*255,random.random()*255))
+        # create a surface for every game object in brain's scene
+        graphical_scene = []
+        for game_object in self.brain.current_scene:
+            # XXX placeholder for now
+            surface = pygame.Surface(game_object.dimensions)
+            color = pygame.Color(random.randint(0, 255), random.randint(0, 255),
+                                 random.randint(0, 255))
+            surface.fill(color)
+            # TODO: actually load sprite
+            #surface = pygame.image.load(game_object.sprite)
+            graphical_scene.append((surface, game_object.coords))
+
+        self.screen.fill(pygame.Color(0, 0, 0))
+
+        for (surface, coords) in graphical_scene:
+            self.screen.blit(surface, coords)
+
         pygame.display.flip()
 
 
