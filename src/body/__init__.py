@@ -100,3 +100,4 @@ class Hand(object):
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
                 raise ExitSMLBL2
+            # TODO: handle cursor keys, send them to brain
