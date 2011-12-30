@@ -28,9 +28,28 @@ class Brain(object):
 
         self.state = self.SPLASH
         self.do_sleep = False
-
         self.selected_character = None
+        self.character_select_scene = [Background(),
+                                       Character((50,  200), "data/character_0.png", 0),
+                                       Character((200, 200), "data/character_1.png", 1),
+                                       Character((350, 200), "data/character_2.png", 2),
+                                       Character((500, 200), "data/character_3.png", 3),
+                                       Cursor((50, 100), "data/cursor.png",
+                                              [50, 200, 350, 500])]
 
+
+    # movement controls
+    def pressed_right(self):
+        if self.state == self.CHARACTER_SELECT:
+            self.move_cursor_right()
+
+    def pressed_left(self):
+        if self.state == self.CHARACTER_SELECT:
+            self.move_cursor_left()
+
+    def pressed_enter(self):
+        if self.state == self.CHARACTER_SELECT:
+            self.select_character()
 
 
     def tick(self):
@@ -78,13 +97,19 @@ class Brain(object):
 
 
     def character_select(self):
-        self.current_scene = [Background(),
-                              Character((50,  200), "data/character_0.png", 0),
-                              Character((200, 200), "data/character_1.png", 1),
-                              Character((350, 200), "data/character_2.png", 2),
-                              Character((500, 200), "data/character_3.png", 3),
-                              Cursor((50, 100), "data/cursor.png",
-                                     [50, 200, 350, 500])]
+        self.current_scene = self.character_select_scene
+
+    def move_cursor_right(self):
+        cursor = self.current_scene[-1]
+        cursor.move_right()
+
+    def move_cursor_left(self):
+        cursor = self.current_scene[-1]
+        cursor.move_left()
+
+    def select_character(self):
+        cursor = self.current_scene[-1]
+        self.selected_character = cursor.selected_position
 
 
     def level_intro(self):
@@ -144,4 +169,9 @@ class Hand(object):
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
                 raise ExitSMLBL2
-            # TODO: handle cursor keys, send them to brain
+            elif event.key == pygame.K_RIGHT:
+                self.brain.pressed_right()
+            elif event.key == pygame.K_LEFT:
+                self.brain.pressed_left()
+            elif event.key == pygame.K_RETURN:
+                self.brain.pressed_enter()

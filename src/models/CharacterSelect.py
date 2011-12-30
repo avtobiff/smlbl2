@@ -57,24 +57,33 @@ class Cursor(GameObject):
         self.positions = positions
         self.selected_position = 0
 
-    def move(self, left = True):
-        if left:
-            direction = -1
+    def move(self, left = True, position = None):
+        if position == None:
+            if left:
+                direction = -1
+            else: # right
+                direction = 1
+            self.selected_position += direction
+        else:
+            self.selected_position = position
 
-        self.selected_position += direction
+        print self.selected_position
         x = self.positions[self.selected_position]
         self.coords = (x + self.offset, self.y)
+        print self.coords
 
     def move_left(self):
         print "Move cursor left..."
         # wrap around if we are at beginning
-        if self.selected_position == 0:
-            self.selected_position = len(self.positions)
+        if self.selected_position <= 0:
+            self.move(position = len(self.positions) - 1)
+            return
         self.move(left = True) # i.e. left <-
 
     def move_right(self):
-        print "Move cursor right..."
+        print "Move cursor right... %s" % self.selected_position
         # wrap around if we are at far end
-        if self.selected_position == len(self.positions):
-            self.selected_position = 0
+        if self.selected_position >= len(self.positions) - 1:
+            self.move(position = 0)
+            return
         self.move(left = False) # i.e. right ->
