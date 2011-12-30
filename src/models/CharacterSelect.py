@@ -6,15 +6,16 @@ class Background(GameObject):
     The character select background.
     """
     def __init__(self):
-        GameObject.__init__(self, 0, 0, 640, 480, "data/character_select_background.png")
+        GameObject.__init__(self, (0, 0), (640, 480),
+                            "data/character_select_background.png")
 
 
 class Character(GameObject):
     """
     Selectable character.
     """
-    def __init__(self, x, y, sprite, player_num):
-        GameObject.__init__(self, 100, 100, 20, 100, sprite)
+    def __init__(self, coords, sprite, player_num):
+        GameObject.__init__(self, coords, (20, 100), sprite)
         self.player_num = player_num
         self.orig_sprite = sprite
 
@@ -43,8 +44,8 @@ class Cursor(GameObject):
     """
     The cursor which selects characters.
     """
-    def __init__(self, x, y, sprite, positions):
-        GameObject.__init__(self, x, y, 20, 40, sprite)
+    def __init__(self, coords, sprite, positions):
+        GameObject.__init__(self, coords, (20, 40), sprite)
         self.positions = positions
         self.selected_position = 0
 
