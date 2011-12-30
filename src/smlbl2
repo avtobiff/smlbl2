@@ -12,11 +12,24 @@ class SMLBL2(object):
     Bootstrap class.
     """
     def __init__(self):
+        self.print_init("pygame")
         pygame.init()
 
+        self.print_init("brain")
         self.brain  = Brain()                    # model
+        self.print_init("eye")
         self.eye    = Eye(self.brain)            # view
+        self.print_init("hand")
         self.hand   = Hand(self.brain, self.eye) # controller
+
+
+    def print_init(self, item):
+        init_words = ["Enabling", "Starting", "Initializing", "Summoning",
+                      "Waking", "Assembling", "Acquaring", "Stealing",
+                      "Converting"]
+
+        word = init_words[random.randint(0, len(init_words) - 1)]
+        print "%s %s..." % (word, item)
 
 
     def run(self):
