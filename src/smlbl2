@@ -28,6 +28,7 @@ class SMLBL2(object):
                       "Waking", "Assembling", "Acquaring", "Stealing",
                       "Converting"]
 
+        random.seed()
         word = init_words[random.randint(0, len(init_words) - 1)]
         print "%s %s..." % (word, item)
 
