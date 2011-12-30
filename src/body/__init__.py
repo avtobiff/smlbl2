@@ -39,27 +39,42 @@ class Brain(object):
         """
         self.scene[self.next_state]()
 
+        # just sleep for five seconds during splash
+        if self.next_state == self.SPLASH:
+            time.sleep(5)
+            self.next_state = self.CHARACTER_SELECT
+        # wait in chracter select until a character is selected
+        elif self.next_state == self.CHARACTER_SELECT:
+            if not self.selected_character:
+                continue
+            self.next_state = self.CHARACTER_SELECT
+        # just sleep for five seconds during level splash
+        elif self.next_state == self.LEVEL_SPLASH:
+            time.sleep(5)
+            self.next_state = self.GAMEPLAY
+        # the actual gameplay!
+        elif self.next_state == self.GAMEPLAY:
+            pass # no more state transitions
+
+
     ## game states
     # the idea is to control and repaint everything from the beginning of the
     # list first and continue backwards
     def splash(self):
-        self.next_state = self.CHARACTER_SELECT
         self.current_scene = [SplashImage()]
 
 
     def character_select(self):
-        self.next_state = self.LEVEL_SPLASH
         self.current_scene = [Background(),
-                              Character(100, 300, "data/character_0.png", 0),
-                              Character(200, 300, "data/character_1.png", 1),
-                              Character(300, 300, "data/character_2.png", 2),
-                              Character(400, 300, "data/character_3.png", 3),
-                              Cursor(100, 300, "data/cursor.png",
+                              Character((100, 300), "data/character_0.png", 0),
+                              Character((200, 300), "data/character_1.png", 1),
+                              Character((300, 300), "data/character_2.png", 2),
+                              Character((400, 300), "data/character_3.png", 3),
+                              Cursor((100, 300), "data/cursor.png",
                                      [100, 200, 300, 400])]
 
 
     def level_intro(self):
-        self.next_state = self.GAMEPLAY
         self.current_scene = [LevelSplashImage()]
 
 
