@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import random
+import random, time
 import pygame
 
 from models import SplashImage, LevelSplashImage, Level
@@ -27,6 +27,7 @@ class Brain(object):
                       self.GAMEPLAY:         self.gameplay}
 
         self.next_state = self.SPLASH
+        self.do_sleep = False
 
         self.selected_character = None
 
@@ -40,21 +41,30 @@ class Brain(object):
         self.scene[self.next_state]()
 
         # just sleep for five seconds during splash
-        if self.next_state == self.SPLASH:
+        if self.next_state == self.SPLASH and self.do_sleep:
+            print "Splash..."
             time.sleep(5)
+            self.do_sleep = False
             self.next_state = self.CHARACTER_SELECT
+            print "Select character..."
         # wait in chracter select until a character is selected
         elif self.next_state == self.CHARACTER_SELECT:
             if not self.selected_character:
-                continue
-            self.next_state = self.CHARACTER_SELECT
+                return
+            print "Selected character..."
+            self.next_state = self.LEVEL_SPLASH
         # just sleep for five seconds during level splash
-        elif self.next_state == self.LEVEL_SPLASH:
+        elif self.next_state == self.LEVEL_SPLASH and self.do_sleep:
+            print "Level splash..."
             time.sleep(5)
+            self.do_sleep = False
             self.next_state = self.GAMEPLAY
         # the actual gameplay!
+        # no more state transitions
         elif self.next_state == self.GAMEPLAY:
-            pass # no more state transitions
+            print "Gameplay..."
+
+        self.do_sleep = True
 
 
     ## game states
