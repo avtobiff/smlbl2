@@ -76,12 +76,12 @@ class Brain(object):
 
     def character_select(self):
         self.current_scene = [Background(),
-                              Character((100, 300), "data/character_0.png", 0),
-                              Character((200, 300), "data/character_1.png", 1),
-                              Character((300, 300), "data/character_2.png", 2),
-                              Character((400, 300), "data/character_3.png", 3),
-                              Cursor((100, 300), "data/cursor.png",
-                                     [100, 200, 300, 400])]
+                              Character((50,  200), "data/character_0.png", 0),
+                              Character((200, 200), "data/character_1.png", 1),
+                              Character((350, 200), "data/character_2.png", 2),
+                              Character((500, 200), "data/character_3.png", 3),
+                              Cursor((50, 100), "data/cursor.png",
+                                     [50, 200, 350, 500])]
 
 
     def level_intro(self):

@@ -15,7 +15,7 @@ class Character(GameObject):
     Selectable character.
     """
     def __init__(self, coords, sprite, player_num):
-        GameObject.__init__(self, coords, (20, 100), sprite)
+        GameObject.__init__(self, coords, (80, 200), sprite)
         self.player_num = player_num
         self.orig_sprite = sprite
 
@@ -44,8 +44,16 @@ class Cursor(GameObject):
     """
     The cursor which selects characters.
     """
+
+    offset = 20
+
+
     def __init__(self, coords, sprite, positions):
-        GameObject.__init__(self, coords, (20, 40), sprite)
+        x, y = coords
+        # move cursor 50 pixels to the right so we get right above the
+        # character
+        GameObject.__init__(self, (x + self.offset, y), (40, 80), sprite)
+        self.y = y
         self.positions = positions
         self.selected_position = 0
 
@@ -54,15 +62,18 @@ class Cursor(GameObject):
             direction = -1
 
         self.selected_position += direction
-        self.x = self.positions[self.selected_position]
+        x = self.positions[self.selected_position]
+        self.coords = (x + self.offset, self.y)
 
     def move_left(self):
+        print "Move cursor left..."
         # wrap around if we are at beginning
         if self.selected_position == 0:
             self.selected_position = len(self.positions)
         self.move(left = True) # i.e. left <-
 
     def move_right(self):
+        print "Move cursor right..."
         # wrap around if we are at far end
         if self.selected_position == len(self.positions):
             self.selected_position = 0
