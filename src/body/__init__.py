@@ -28,6 +28,8 @@ class Brain(object):
 
         self.next_state = self.SPLASH
 
+        self.selected_character = None
+
 
 
     def tick(self):
