@@ -26,7 +26,7 @@ class Brain(object):
                       self.LEVEL_SPLASH:     self.level_intro,
                       self.GAMEPLAY:         self.gameplay}
 
-        self.next_state = self.SPLASH
+        self.state = self.SPLASH
         self.do_sleep = False
 
         self.selected_character = None
@@ -38,30 +38,33 @@ class Brain(object):
         Tick function for game play. This updates model with respect to
         control from user.
         """
-        self.scene[self.next_state]()
+        self.scene[self.state]()
 
         # just sleep for five seconds during splash
-        if self.next_state == self.SPLASH and self.do_sleep:
+        if self.state == self.SPLASH and self.do_sleep:
             print "Splash..."
             time.sleep(5)
             self.do_sleep = False
-            self.next_state = self.CHARACTER_SELECT
+            self.state = self.CHARACTER_SELECT
             print "Select character..."
         # wait in chracter select until a character is selected
-        elif self.next_state == self.CHARACTER_SELECT:
-            if not self.selected_character:
+        elif self.state == self.CHARACTER_SELECT:
+            if self.selected_character == None:
                 return
-            print "Selected character..."
-            self.next_state = self.LEVEL_SPLASH
+            print "Selected character %s..." % self.selected_character
+            self.state = self.LEVEL_SPLASH
+            # hack for allowing to blit level splash
+            self.do_sleep = False
+            return
         # just sleep for five seconds during level splash
-        elif self.next_state == self.LEVEL_SPLASH and self.do_sleep:
+        elif self.state == self.LEVEL_SPLASH and self.do_sleep:
             print "Level splash..."
             time.sleep(5)
             self.do_sleep = False
-            self.next_state = self.GAMEPLAY
+            self.state = self.GAMEPLAY
         # the actual gameplay!
         # no more state transitions
-        elif self.next_state == self.GAMEPLAY:
+        elif self.state == self.GAMEPLAY:
             print "Gameplay..."
 
         self.do_sleep = True
