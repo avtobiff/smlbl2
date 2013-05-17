@@ -47,11 +47,15 @@ class Brain(object):
         if self.state == self.CHARACTER_SELECT:
             self.move_cursor_right()
             self.do_repaint = True
+        if self.state == self.GAMEPLAY:
+            pass
 
     def pressed_left(self):
         if self.state == self.CHARACTER_SELECT:
             self.move_cursor_left()
             self.do_repaint = True
+        if self.state == self.GAMEPLAY:
+            pass
 
     def pressed_enter(self):
         if self.state == self.CHARACTER_SELECT:
