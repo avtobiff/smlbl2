@@ -81,6 +81,10 @@ def updmkala(x, y, gobsurf, mkl, spaniton, maklefac):
         mkl.append((realx, realy, calor))
         if len(mkl) > spaniton:
             mkl.pop(0)
+    for (ex,wy,clor) in mkl:
+        clor.r = (clor.r+50)%256
+        clor.g = (clor.g+50)%256
+        clor.b = (clor.b+50)%256
 
 proqen_grass = grass.copy()
 proqen_splitgoofy = []
